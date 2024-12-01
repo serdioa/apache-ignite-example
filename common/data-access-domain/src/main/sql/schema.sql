@@ -1,0 +1,50 @@
+CREATE TABLE t_User (
+    User_Id INTEGER NOT NULL,
+    Username VARCHAR(30) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    Password_Changed_On TIMESTAMP,
+    Expire_On DATE,
+    Locked BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+ALTER TABLE t_User ADD CONSTRAINT PK_User PRIMARY KEY (User_Id);
+
+ALTER TABLE t_User ADD CONSTRAINT UK_User_Username UNIQUE (Username);
+
+CREATE TABLE t_Role (
+    Role_Id INTEGER NOT NULL,
+    Role_Name VARCHAR(128) NOT NULL,
+    Description VARCHAR(255)
+);
+
+ALTER TABLE t_Role ADD CONSTRAINT PK_Role PRIMARY KEY (Role_Id);
+
+ALTER TABLE t_Role ADD CONSTRAINT UK_Role_Role_Name UNIQUE (Role_Name);
+
+CREATE TABLE t_Right (
+    Right_Id INTEGER NOT NULL,
+    Right_Name VARCHAR(128) NOT NULL,
+    Description VARCHAR(255)
+);
+
+ALTER TABLE t_Right ADD CONSTRAINT PK_Right PRIMARY KEY (Right_Id);
+
+ALTER TABLE t_Right ADD CONSTRAINT UK_Right_Right_Name UNIQUE (Right_Name);
+
+CREATE TABLE t_User_Role (
+    User_Id INTEGER NOT NULL,
+    Role_Id INTEGER NOT NULL
+);
+
+ALTER TABLE t_User_Role ADD CONSTRAINT UQ_User_Role UNIQUE (User_Id, Role_Id);
+ALTER TABLE t_User_Role ADD CONSTRAINT FK_User_Role_User FOREIGN KEY (User_Id) REFERENCES t_User(User_Id);
+ALTER TABLE t_User_Role ADD CONSTRAINT FK_User_Role_Role FOREIGN KEY (Role_Id) REFERENCES t_Role(Role_Id);
+
+CREATE TABLE t_Role_Right (
+    Role_Id INTEGER NOT NULL,
+    Right_Id INTEGER NOT NULL
+);
+
+ALTER TABLE t_Role_Right ADD CONSTRAINT UQ_Role_Right UNIQUE (Role_Id, Right_Id);
+ALTER TABLE t_Role_Right ADD CONSTRAINT FK_Role_Right_Role FOREIGN KEY (Role_Id) REFERENCES t_Role(Role_Id);
+ALTER TABLE t_Role_Right ADD CONSTRAINT FK_Role_Right_Right FOREIGN KEY (Right_Id) REFERENCES t_Right(Right_Id);

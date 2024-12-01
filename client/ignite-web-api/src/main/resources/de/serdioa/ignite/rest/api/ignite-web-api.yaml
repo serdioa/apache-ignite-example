@@ -1,0 +1,226 @@
+openapi: 3.0.3
+info:
+  title: Ignite Web API
+  description: API for testing Apache Ignite.
+  version: "1.0"
+servers:
+  - url: http://localhost:8080
+    description: Local testing environment
+paths:
+  /rest/v1/user:
+    get:
+      summary: Returns all users
+      tags:
+        - user
+      operationId: findAllUsers
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+    post:
+      summary: Create a new user
+      tags:
+        - user
+      operationId: createUser
+      requestBody:
+        description: The user to be created. The content must not contain a user ID.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid user data
+
+  /rest/v1/user/{userId}:
+    get:
+      summary: Find user by ID
+      tags:
+        - user
+      operationId: findUserById
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user to return
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 10
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid user ID
+        '404':
+          description: User not found
+
+    put:
+      summary: Update user with the specified ID
+      tags:
+        - user
+      operationId: updateUserById
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user to be updated
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 10
+      requestBody:
+        description: The user to be updated. If the content contains the user ID, it must match the userId parameter in the query path.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid user ID
+        '404':
+          description: User not found
+
+    delete:
+      summary: Delete user with the specified ID
+      tags:
+        - user
+      operationId: deleteUserById
+      parameters:
+        - name: userId
+          in: path
+          description: ID of the user to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int32
+            example: 10
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid user ID
+        '404':
+          description: User not found
+
+  /rest/v1/ping:
+    get:
+      summary: Simple ping.
+      tags:
+        - ping
+      responses:
+        '200':
+          description: Sample pong response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pong"
+    post:
+      summary: Ping with an optional token.
+      tags:
+        - ping
+      parameters:
+          - name: token
+            in: query
+            required: false
+            description: Token provided by the ping caller
+            schema:
+                type: string
+                example: pong
+      responses:
+        '200':
+          description: Sample pong response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pong"
+        '400':
+          description: Validation error
+
+  /rest/v1/pingbody:
+    post:
+      summary: Ping with JSON body in request
+      tags:
+        - ping
+      requestBody:
+        description: Sample ping request
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ping"
+      responses:
+        '200':
+          description: Sample pong response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pong"
+        '400':
+          description: Validation error
+
+components:
+  schemas:
+    Ping:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "ping"
+          description: "Ping token"
+    Pong:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          example: "2000-01-01T00:00:00.000+00:00"
+          description: "Current timestamp"
+        token:
+          type: string
+          example: "pong"
+          description: "Ping token"
+    User:
+      type: object
+      required:
+        - username
+        - password
+        - locked
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 10
+        username:
+          type: string
+          example: bob
+          maxLength: 30
+        password:
+          type: string
+          example: foobar
+          maxLength: 30
+        locked:
+          type: boolean

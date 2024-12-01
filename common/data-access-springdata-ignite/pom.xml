@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.serdioa.ignite</groupId>
+        <artifactId>common</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>de.serdioa.ignite</groupId>
+    <artifactId>data-access-springdata-ignite</artifactId>
+
+    <name>Spring Data with Ignite</name>
+    <description>Spring Data repositories with Ignite</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.serdioa.ignite</groupId>
+            <artifactId>data-access-domain</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Ignite JPA does not support QueryDSL -->
+        <!--
+                <dependency>
+                    <groupId>de.serdioa.ignite</groupId>
+                    <artifactId>data-access-querydsl</artifactId>
+                    <version>1.0-SNAPSHOT</version>
+                </dependency>
+        -->
+        <dependency>
+            <groupId>org.apache.ignite</groupId>
+            <artifactId>ignite-spring-data-ext</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+</project>

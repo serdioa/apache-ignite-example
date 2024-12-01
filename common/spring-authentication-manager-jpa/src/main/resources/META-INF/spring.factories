@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    de.serdioa.spring.security.jpa.autoconfigure.JpaAuthenticationManagerAutoConfiguration

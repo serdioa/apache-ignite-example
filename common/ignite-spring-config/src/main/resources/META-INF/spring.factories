@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    de.serdioa.ignite.spring.autoconfigure.IgniteCacheAutoConfiguration, \
+    de.serdioa.ignite.spring.autoconfigure.IgniteJpaPersistenceAutoConfiguration, \
+    de.serdioa.ignite.spring.autoconfigure.IgniteLoadCacheAutoConfiguration, \
+    de.serdioa.ignite.spring.autoconfigure.IgniteNodeAutoConfiguration
